@@ -1,0 +1,44 @@
+
+.MAIN.  Commodore 6502ASM B0.0  Jun 14 18:26:35 1989  Page 1
+   TEST.SRC
+
+Error Addr  Code          Seq   Source statement
+
+     0000                   1   here
+                            2   
+            =1000           3           * = $1000
+     1000   4C 100F         4           jmp start
+     1003                   5   begin
+     1003   48 65 6C        6           .byte 'Hello World',0
+     1006   6C 6F 20 
+     1009   57 6F 72 
+     100C   6C 64 00 
+     100F                   7   start
+     100F   A9 03           8           lda #<begin
+     1011   85 00           9           sta here
+     1013   A9 10          10           lda #>begin
+     1015   85 01          11           sta here+1
+                           12   
+     1017   A2 00          13           ldx #0
+     1019   BD 1003        14   10$     lda begin,x
+     101C   95 03          15           sta here+3,x
+     101E   D0 F9          16           bne 10$
+                           17    
+                           18           .end
+
+Errors detected in 0 lines.
+
+ value name                            cross reference
+
+S 0000 A                               
+  1003 BEGIN                               14     10      8      5#
+  0000 HERE                                15$    11$     9$     1#
+  100F START                                7#     4?
+
+Memory used to store 1 local symbols: 26. bytes.
+
+Memory used to store 4 permanent symbols: 91. bytes.
+
+Memory used for cross reference table: 80. bytes.
+
+No macros defined.

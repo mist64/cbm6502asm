@@ -1,0 +1,41 @@
+
+.MAIN.  Commodore 6502ASM B0.0  Mar 13 16:12:00 1990  Page 1
+   PHD.SRC
+
+Error Addr  Code          Seq   Source statement
+
+            =0010           1           * = $0010
+                            2   
+     0010                   3   base
+                            4   
+            =1000           5           * = $1000
+                            6   
+     1000   FC 1000         7   junk    phd junk
+O    1003                   8           phd #$1234
+O    1003                   9           phd base
+                           10   
+N    1003                  11           phw junk
+N    1003                  12           phw #$1234
+N    1003                  13           phw base
+                           14   
+            =0000          15   r0      = 0
+O    1003                  16           phd r0
+                           17   
+                           18           .end
+
+Errors detected in 6 lines.
+
+ value name                            cross reference
+
+S 0000 A                               
+  0010 BASE                                 9      3#
+  1000 JUNK                                 7      7#
+= 0000 R0                                  16     15#
+
+Memory used to store 0 local symbols: 0. bytes.
+
+Memory used to store 4 permanent symbols: 87. bytes.
+
+Memory used for cross reference table: 48. bytes.
+
+No macros defined.

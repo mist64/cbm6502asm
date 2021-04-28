@@ -1,0 +1,18 @@
+here
+
+        * = $1000
+        jmp start
+begin
+        .byte 'Hello World',0
+start
+        lda #<begin
+        sta here
+        lda #>begin
+        sta here+1
+
+        ldx #0
+10$     lda begin,x
+        sta here+3,x
+        bne 10$
+                 
+        .end

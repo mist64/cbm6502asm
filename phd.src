@@ -1,0 +1,18 @@
+        * = $0010
+
+base
+
+        * = $1000
+
+junk    phd junk
+        phd #$1234
+        phd base
+
+        phw junk
+        phw #$1234
+        phw base
+
+r0      = 0
+        phd r0
+
+        .end
