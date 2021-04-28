@@ -1,7 +1,7 @@
-#CFLAGS=-Wall -Werror -g
+CFLAGS=-Wall
 SDIR=.
 ODIR=build
-EXECUTABLE=$(ODIR)/4502asm
+EXECUTABLE=$(ODIR)/asm
 
 _OBJS = asm.o direct1.o direct2.o express.o help.o line.o macrodef.o opcode.o outline.o pass1.o pass2.o symbol.o
 
