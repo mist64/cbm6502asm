@@ -95,3 +95,7 @@ As long as they are unique, most directives are also accepted abbreviated to 3 c
 * Convert K&R -> C90
 * Fix LLVM/GCC warnings
 * Handle UNIX patch separators correctly
+
+## Authors
+
+**Commodore 6502ASM** was written by Fred Bowen in 1989. This repository is maintained by Michael Steil <mist64@mac.com>.
