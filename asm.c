@@ -13,7 +13,7 @@ char *argv[];
 	int i, first = TRUE;
 	open_files(argc, argv); /* get command line */
 	while (*src) {          /* as long as there are more src files */
-		for (i = 0; srcfile[i] = toupper(src[i]); i++)
+		for (i = 0; (srcfile[i] = toupper(src[i])); i++)
 			;
 		appendef(srcfile, ".src");
 		fprintf(file_tmp, "%sF%s\n", STATLINE, srcfile);
@@ -202,7 +202,7 @@ char *argv[];
 					        p, 2);
 				case 'D':
 					i = 0;
-					while (c = *++p) {
+					while ((c = *++p)) {
 						if (c == '/') break;
 						tmpdev[i++] = c;
 						tmpdev[i] = 0;
@@ -272,7 +272,7 @@ char *argv[];
 		datetime[i] = 0;
 }
 
-void display_error(c) char c;
+void display_error(char c)
 /* append another error to error field if this error has not occurred before */
 {
 	char *p = error_field;

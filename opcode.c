@@ -266,8 +266,8 @@ char parseopr() {
 		i = 1;
 		if (s3[0] == '(' && s3[s3l - 1] == ')') {
 			strcpy(tmp, &s3[1]);
-			if (i = (s3[s3l - 3] == ',' &&
-			         toupper(s3[s3l - 2]) == 'X'))
+			if ((i = (s3[s3l - 3] == ',' &&
+			         toupper(s3[s3l - 2]) == 'X')))
 				tmp[s3l - 4] = 0;
 			else
 				tmp[s3l - 2] = 0;
@@ -283,8 +283,8 @@ char parseopr() {
 		i = 4;
 		if (s3[0] == '(' && s3[s3l - 1] == ')') {
 			strcpy(tmp, &s3[1]);
-			if (i = (s3[s3l - 3] == ',' &&
-			         toupper(s3[s3l - 2]) == 'X'))
+			if ((i = (s3[s3l - 3] == ',' &&
+			         toupper(s3[s3l - 2]) == 'X')))
 				tmp[s3l - 4] = 0;
 			else
 				tmp[s3l - 2] = 0;
@@ -381,7 +381,7 @@ char parseopr() {
 		if ((j = searchstr(nm3, s2, 4)) >= 0) {
 			char *p;
 			strcpy(tmp, s3);
-			if (p = strchr(tmp, ',')) { /* find the , */
+			if ((p = strchr(tmp, ','))) { /* find the , */
 				*p = 0;
 				known = evaluate(tmp, &l);
 				d[data++] = l & 255;
@@ -441,7 +441,7 @@ char parseopr() {
 	d[data++] = l & 255;
 	j = searchstr(nm5, s2, 3);
 	i = !known || l < -128 || l > 255 || forcelong;
-	if (k = (i && op6[j])) d[data++] = l >> 8 & 255;
+	if ((k = (i && op6[j]))) d[data++] = l >> 8 & 255;
 	if (k ? op6[j] : op5[j]) return (k ? op6[j] : op5[j]); /* ?abs:bp */
 	display_error(error = 'O');
 	return (data = 0);

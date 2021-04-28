@@ -87,9 +87,7 @@ void clean_list() {
 	}
 }
 
-void outline1(file, addr, data, d, equ, known) FILE *file;
-char addr, equ, data, known, *d;
-{
+void outline1(FILE *file, char addr, char data, char *d, char equ, char known) {
 	int i;
 	if (!print && !error) /* don't print certain directives unless error */
 		return;
@@ -137,7 +135,7 @@ char addr, equ, data, known, *d;
 	}
 	fprintf(file, "%8d%c  ", linenum - 1, maclev);
 	fprintf(file, "%c%s", spechar, line);
-	if (gen)
+	if (gen) {
 		if (word || dbyt)
 			for (i = 2; i < data; i += 2)
 				fprintf(file, "\n     %04lX   %02X%02X",
@@ -150,6 +148,7 @@ char addr, equ, data, known, *d;
 					        old_loc + i);
 				fprintf(file, "%02X ", 255 & d[i]);
 			}
+	}
 	fprintf(file, "\n");
 	if (macrolevel > maxmaclev && file == file_tmp) {
 		fclose(file_tmp);
@@ -158,9 +157,7 @@ char addr, equ, data, known, *d;
 	}
 }
 
-void outhex(addr, data) unsigned int addr;
-char data;
-{
+void outhex(unsigned int addr, char data) {
 	if (!binptr) {
 		sprintf(binbuf, ";00%04X", binadr = addr);
 		chksum = addr >> 8 & 255;
@@ -188,8 +185,7 @@ char data;
 	binadr = addr + 1;
 }
 
-void outline(addr, data, d, equ, known) char addr, equ, data, known, *d;
-{
+void outline(char addr, char data, char *d, char equ, char known) {
 	int i;
 	linenum++;
 	outline1(file_tmp, addr, data, d, equ, known);

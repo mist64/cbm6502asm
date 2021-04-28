@@ -64,7 +64,7 @@ LX unsigned int binadr; /* expected address of next byte */
 LX char binbuf[50];     /* hex file line buffer */
 LX long codebytes;      /* number of bytes of code generated */
 
-LX assumeL;                  /* assume long if true else assume short */
+LX int assumeL;              /* assume long if true else assume short */
 LX char maclev;              /* macro level character code */
 LX char spechar;             /* special code in temp file */
 LX int word;                 /* flag used to output .word data */

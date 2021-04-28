@@ -100,7 +100,7 @@ void macro_tab() {
 	long s = 0;
 	int i = 0;
 	char *p;
-	if (tmpmac = macro_head)
+	if ((tmpmac = macro_head))
 		fprintf(file_lst,
 		        "\n\n size  name                            "
 		        "parameters\n");

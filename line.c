@@ -9,7 +9,7 @@ void parselin() {
 	int i = 0, j;
 	char linestat[FIRSTCHAR + 1];
 
-	while (s3 = strchr(line, '\f')) { /* search for form feeds */
+	while ((s3 = strchr(line, '\f'))) { /* search for form feeds */
 		for (linestat[FIRSTCHAR] = j = 0; j < FIRSTCHAR;
 		     linestat[j++] = ' ')
 			;

@@ -98,7 +98,7 @@ int dir2dot() {
 
 	if (!strcmp(s2, ".ASECT") || !strcmp(s2, ".SECT")) {
 		if (!isspace(line[0])) display_error(error = 'F');
-		while (i = (*s3 != ',') && *s3) {
+		while ((i = (*s3 != ',') && *s3)) {
 			*s3 = toupper(*s3);
 			s3++;
 		}
@@ -168,7 +168,7 @@ int dir2dot() {
 		if (!isspace(line[0])) /* save label if any */
 			if (good_label(s1)) get_label(s1, 1);
 		parses3(1);
-		if (known = evaluate(s3, &l))
+		if ((known = evaluate(s3, &l)))
 			loc_cntr += l;
 		else
 			display_error(error = 'U');
@@ -186,7 +186,7 @@ int dir2dot() {
 		parses3(0);
 		known = addr = 1;
 		while (*s3) {
-			if (j = evaluate(s3, &l))
+			if ((j = evaluate(s3, &l)))
 				if (l > 0xffffL || l < -32768L)
 					display_error(error = 'E');
 			known &= j;
@@ -214,7 +214,7 @@ int dir2dot() {
 		while (*s3) {
 			if (isstring(s3)) {
 				char c, delimiter = *s3;
-				while (c = *++s3) {
+				while ((c = *++s3)) {
 					if (c != delimiter)
 						d[data++] = c;
 					else if (*++s3 == delimiter)
@@ -316,7 +316,7 @@ int dir2dot() {
 		return 1;
 	}
 	if (!strcmp(s2, ".SPACE") || !strcmp(s2, ".SKIP")) {
-		if (j = evaluate(s3, &l) && !error)
+		if ((j = evaluate(s3, &l) && !error))
 			sprintf(line, "%ld\0%c", l, spechar = 's');
 		else
 			display_error(error = 'E');
@@ -324,7 +324,7 @@ int dir2dot() {
 	}
 	if (!strcmp(s2, ".FORMLN") || !strcmp(s2, ".FORML") ||
 	    !strcmp(s2, ".FORM")) {
-		if (j = evaluate(s3, &l))
+		if ((j = evaluate(s3, &l)))
 			sprintf(line, "%ld\0%c", l, spechar = 'f');
 		else
 			display_error(error = 'E');
@@ -345,7 +345,7 @@ int dir2dot() {
 	}
 	if (!strcmp(s2, ".MESSG")) {
 		if (pass == 2) {
-			if (s1 = strchr(s3, ';')) /* trim comment */
+			if ((s1 = strchr(s3, ';'))) /* trim comment */
 				*s1 = 0;
 			for (i = strlen(s3); i > 0; i--)
 				if (isspace(s3[i])) /* trim trailing white space
@@ -364,9 +364,9 @@ int isstring(p) char *p;
 {
 	if (*p == '\'' || *p == '\"') {
 		char c, delimiter = *p;
-		while (c = *++p)
+		while ((c = *++p))
 			if (c == delimiter)
 				if (*++p != delimiter) return !*p;
-	} else
-		return 0;
+	}
+	return 0;
 }

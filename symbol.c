@@ -223,7 +223,7 @@ struct smbl *find_symbol(sym) char *sym;
 	int i;
 	pntr = root_symtab;
 	while (pntr)                             /* while not a terminal node */
-		if (i = strcmp(pntr->name, sym)) /* if symbol name not equal */
+		if ((i = strcmp(pntr->name, sym))) /* if symbol name not equal */
 			pntr = pntr->link[i <
 			                  0]; /* try the appropriate sub-node */
 		else

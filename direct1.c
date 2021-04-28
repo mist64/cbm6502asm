@@ -306,7 +306,7 @@ int direct1(macprmbgn, maclinptr, macargbgn) char *macprmbgn, **maclinptr,
 			strcat(srcfile, s3);
 			strcpy(s3, srcfile);
 		}
-		for (i = 0; srcfile[i] = toupper(s3[i]); i++)
+		for (i = 0; (srcfile[i] = toupper(s3[i])); i++)
 			;
 		fprintf(file_tmp, "%sF%s\n", STATLINE, srcfile);
 		file_src = fopen(s3, "r");

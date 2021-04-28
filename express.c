@@ -100,11 +100,10 @@ long evalocal() { /* evaluate a local symbol */
 	return (evalcon(radix));
 }
 
-long evalchar(t) char t;
-{
+long evalchar(char t) {
 	long con = 0;
 	char c;
-	while (c = *lp) { /* test for end of field */
+	while ((c = *lp)) { /* test for end of field */
 		lp++;
 		if (t != c) /* test for terminator */
 			con = (con << 8) + c;
@@ -120,8 +119,7 @@ long evalchar(t) char t;
 	return (con);                 /* end of expression found */
 }
 
-int priority(c) char c;
-{
+int priority(char c) {
 	if (c == '$') return (0);
 	if (c == '(') return (1);
 	if (c == '+' || c == '-') return (2);
@@ -245,8 +243,7 @@ void do_oper() { /* perform binary operations */
 	}
 }
 
-void eval(op) char op;
-{
+void eval(char op) {
 	int more = TRUE;
 	if (op == '_' || op == '<' || op == '>' || op == '~' ||
 	    op == '(') { /* unary operators */
@@ -272,7 +269,7 @@ long *value;
 	lp = str;
 	osp = vsp = MAXESTK;
 	opstk[--osp] = '$';
-	while (c = *lp) {
+	while ((c = *lp)) {
 		if (isspace(c) || c == ';') break;
 		if (osp <= 0 || vsp <= 0)
 			error_msg("evaluation stack overflow ", str, 4);

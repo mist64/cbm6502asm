@@ -65,7 +65,7 @@ void pass1(macprmbgn, maclinptr, macargbgn) char *macprmbgn, **maclinptr,
 			macro = wrt = addr = data = equ = 0;
 			print = known = 1; /* unless otherwise determined */
 
-			if (done = (*line == ';')) /* don't process comments */
+			if ((done = (*line == ';'))) /* don't process comments */
 				spechar = *line;
 
 			if (!*line) done = spechar = '1';
