@@ -4,11 +4,11 @@
 void help() {
 	printf("\nthe assembler command line consists of the file names and "
 	       "switches\n");
-	printf("\nC65> "
+	printf("\nasm> "
 	       "[object],[listing]=source[,source]...[,source][/switch]...[/"
 	       "switch]\n");
 	printf("\nItems enclosed in brackets [...] are optional.\n");
-	printf("\nThe default file extentions are .OBJ , .LST and .SRC\n");
+	printf("\nThe default file extentions are .obj , .lst and .src\n");
 	printf("\nSwitches  (either upper or lower case)\n");
 	printf("/A absolute assembly (default)\n");
 	printf("/Cn cpu instruction set /C0 for NMOS 6502   /C1 for CMOS "

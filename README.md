@@ -4,16 +4,19 @@ This is the source code of the 6502/65C02/65CE02 assembler developed and used by
 
 It supports Commodore-style directives and is therefore mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
 
-This source is based on version "B0.0", dated 1989-06-14 and has been updated for modern compilers.
+This source is based on version "B0.0", dated 1989-06-14 and has been slightly updated:
+* A UNIX-style Makefile has been added.
+* The whole source has been linted into a more modern coding style.
+* The behavior has been changed to default to lower case extensions.
 
 ## Usage
 
 The assembler command line consists of these file names and switches:
 
-    C65> [object],[listing]=source[,source]...[,source][/switch]...[/switch]
+    asm [object],[listing]=source[,source]...[,source][/switch]...[/switch]
 
 Items enclosed in brackets `[...]` are optional.
-The default file extentions are `.OBJ`, `.LST`, and `.SRC`, respectively.
+The default file extentions are `.obj`, `.lst`, and `.src`, respectively.
 
 Switches  (either upper or lower case):
 
@@ -39,9 +42,9 @@ Switches  (either upper or lower case):
 
 Since the defaults are reasonable, a typical invokation of the assembler would be
 
-    asm NAME,NAME=NAME
+    asm name,name=name
 
-This will assemble `NAME.SRC` and output to disk `NAME.OBJ` and `NAME.LST`.
+This will assemble `name.src` and output to disk `name.obj` and `name.lst`.
 																 	
 ## Assembler Directives
 
@@ -88,6 +91,6 @@ As long as they are unique, most directives are also accepted abbreviated to 3 c
 ## TODO
 
 * Document assembler directives
-* Change default filename extensions to lower case
 * Convert K&R -> C90
 * Fix LLVM/GCC warnings
+* Handle UNIX patch separators correctly

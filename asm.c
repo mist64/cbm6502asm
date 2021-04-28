@@ -15,7 +15,7 @@ char *argv[];
 	while (*src) {          /* as long as there are more src files */
 		for (i = 0; srcfile[i] = toupper(src[i]); i++)
 			;
-		appendef(srcfile, ".SRC");
+		appendef(srcfile, ".src");
 		fprintf(file_tmp, "%sF%s\n", STATLINE, srcfile);
 		for (i = strlen(srcfile); i > 0;
 		     i--) /* extract path, if any for tmp file */
@@ -99,7 +99,7 @@ char *argv[];
 	if (argc > 1)                     /* check command line */
 		strcpy(comline, argv[1]); /* get command line */
 	else {
-		printf("\nC65>");     /* prompt user for instructions */
+		printf("\nasm>");     /* prompt user for instructions */
 		scanf("%s", comline); /* read command line from console */
 	}
 	if (!strcmp(comline, "/H") || !strcmp(comline, "/h")) {
@@ -112,7 +112,7 @@ char *argv[];
 		objfile[emitobj++] =
 		        *p++; /* get obj file name from command line */
 	objfile[emitobj] = 0; /* terminate obj file name */
-	appendef(objfile, ".OBJ");
+	appendef(objfile, ".obj");
 	for (i = strlen(objfile) - 1; i > 0;
 	     i--) /* extract path, if any for tmp file */
 		if (objfile[i] == '\\' || objfile[i] == ']' ||
@@ -127,7 +127,7 @@ char *argv[];
 			listfile[emitlst++] =
 			        *p++; /* get list file name from command line */
 	listfile[emitlst] = 0;        /* terminate lst file name */
-	appendef(listfile, ".LST");
+	appendef(listfile, ".lst");
 	for (i = strlen(listfile); i > 0;
 	     i--) /* extract path, if any for tmp file */
 		if (listfile[i] == '\\' || listfile[i] == ']' ||
@@ -223,7 +223,7 @@ char *argv[];
 		for (; *s1; s1++) /* remove it */
 			*s1 = s1[1];
 	strcat(tmpdev, p1);
-	strcat(tmpdev, ".TMP");
+	strcat(tmpdev, ".tmp");
 	if (emitobj)
 		if ((file_obj = fopen(objfile, "w")) == NULL)
 			error_msg("Could not open object file: ", objfile, 4);

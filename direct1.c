@@ -296,7 +296,7 @@ int direct1(macprmbgn, maclinptr, macargbgn) char *macprmbgn, **maclinptr,
 		filnamptr[incl_sp] = fnptr;
 		strcpy(&filename[fnptr], srcfile);
 		fnptr += strlen(srcfile) + 1;
-		appendef(s3, ".SRC");
+		appendef(s3, ".src");
 		for (i = strlen(s3) - 1; i > 0; i--)
 			if (s3[i] == '\\' || s3[i] == ']' ||
 			    s3[i] == ':') /* explicit path? */
