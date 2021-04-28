@@ -1,5 +1,5 @@
 CFLAGS=-Wall -Werror -Wno-deprecated-declarations -Wno-char-subscripts -Wno-format -Wno-parentheses -Wno-overflow
-SDIR=.
+SDIR=src
 ODIR=build
 EXECUTABLE=$(ODIR)/asm
 
