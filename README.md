@@ -4,9 +4,10 @@ This is the source code of the 6502/65C02/65CE02 assembler developed and used by
 
 It supports Commodore-style directives and is therefore mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
 
-This source is based on version "B0.0", dated 1989-06-14 and has been slightly updated:
+This source is based on version "B0.0", dated 1989-06-14 from `4502-asm-for-pc.img` of the [Dennis Jarvis collection](http://6502.org/users/sjgray/dj/) and has been slightly updated:
 * A UNIX-style Makefile has been added.
 * The whole source has been linted into a more modern coding style.
+* Some compiler warnings have been fixed.
 * The behavior has been changed to default to lower case extensions.
 
 ## Usage
