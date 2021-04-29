@@ -360,8 +360,7 @@ int dir2dot() {
 	return 0;
 }
 
-int isstring(p) char *p;
-{
+int isstring(char *p) {
 	if (*p == '\'' || *p == '\"') {
 		char c, delimiter = *p;
 		while ((c = *++p))

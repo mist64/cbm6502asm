@@ -4,10 +4,8 @@
 
 #define CHUNK 512 /* increment of memory to allocate for macro def */
 
-void macro_def(macprmbgn, maclinptr, macargbgn, mactype) char *macprmbgn,
-        **maclinptr, *macargbgn;
-int mactype; /* 1=.MACRO 2=.REPT 3=.IRP 4=.IRPC */
-{
+void macro_def(char *macprmbgn, char **maclinptr, char *macargbgn, int mactype) {
+/* mactype: 1=.MACRO 2=.REPT 3=.IRP 4=.IRPC */
 	unsigned int i, l, m, macrocnt = 1;
 
 	spechar = 'D';

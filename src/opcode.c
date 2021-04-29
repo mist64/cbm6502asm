@@ -160,9 +160,7 @@ void opcode() {
 	}
 }
 
-int searchstr(str, key, size) char *str, *key;
-int size;
-{
+int searchstr(char *str, char *key, int size) {
 	int i, j, k;
 	for (i = j = 0; str[i]; i += size, j++) {
 		for (k = 0; k < size && str[i + k] == key[k]; k++)

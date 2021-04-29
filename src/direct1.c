@@ -4,8 +4,7 @@
 
 void memallocerr() { printf("\n\n memory allocation failure!\n"); }
 
-int pushcond(cond) int cond;
-{
+int pushcond(int cond) {
 	int i = 1 << (++condlevel & 15);
 	if (cond)
 		condstk[condlevel >> 4] |= i;
@@ -17,9 +16,7 @@ int pushcond(cond) int cond;
 	return 1;
 }
 
-int direct1(macprmbgn, maclinptr, macargbgn) char *macprmbgn, **maclinptr,
-        *macargbgn;
-{
+int direct1(char *macprmbgn, char **maclinptr, char *macargbgn) {
 	int i, j;
 	long l;
 

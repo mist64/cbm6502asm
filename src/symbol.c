@@ -35,8 +35,7 @@ int symblk = -1;       /* number of blocks of memory allocated for symbols */
 int symbol_ptr = SYMBLKSZ; /* how much memory of current buffer is used */
 char *symbol_buf;          /* the current buffer for symbol table entries */
 
-char *allocsym(symlen) int symlen;
-{
+char *allocsym(int symlen) {
 	/* returns a pointer for use as a symbol table entry */
 
 	int symptr = symbol_ptr;
@@ -53,8 +52,7 @@ char *allocsym(symlen) int symlen;
 	return (symbol_buf + symptr);
 }
 
-void head(i) int i;
-{
+void head(int i) {
 	/* link sub-tree rooted at critical node  */
 
 	if (level)
@@ -63,17 +61,14 @@ void head(i) int i;
 		root_symtab = path[i]; /* first entry */
 }
 
-void xchg(a, b) int a, b;
-{
+void xchg(int a, int b) {
 	/* exchange a pair of nodes in the symbol table tree */
 
 	path[a]->link[path[a]->weight] = path[b]->link[!path[a]->weight];
 	path[b]->link[!path[a]->weight] = path[a];
 }
 
-void savepath(ptr, dir) struct smbl *ptr;
-int dir;
-{
+void savepath(struct smbl *ptr, int dir) {
 	/* keep track of the path used to reach point of insertion */
 
 	direction[++level] = dir;
@@ -102,9 +97,7 @@ void move() {
 	}
 }
 
-void addref(xref, def) int def;
-struct xrfr **xref;
-{
+void addref(struct xrfr **xref, int def) {
 	struct xrfr *new;
 	if (pass > 1) return;
 	if (--xrefcnt <= 0) {
@@ -123,9 +116,7 @@ struct xrfr **xref;
 	*xref = new;             /* add the reference to the list */
 }
 
-void makelocal(i, s) int i;
-char *s;
-{
+void makelocal(int i, char *s) {
 	/*
 	        local symbols are stored in the permanent symbol table. The only
 	        difference between permanent and local symbols is that cross
@@ -149,10 +140,7 @@ char *s;
 	s[7] = 0; /* null to terminate string */
 }
 
-void insert_symbol(sym, value, def, known, local) char *sym;
-long value;
-int def, known, local;
-{
+void insert_symbol(char *sym, long value, int def, int known, int local) {
 	int i, k;
 
 	/* see if symbol already exists and find parent of new entry if not */
@@ -217,8 +205,7 @@ int def, known, local;
 	}
 }
 
-struct smbl *find_symbol(sym) char *sym;
-{ /* find the address of a symbol's entry */
+struct smbl *find_symbol(char *sym) { /* find the address of a symbol's entry */
 	struct smbl *pntr;
 	int i;
 	pntr = root_symtab;
@@ -231,8 +218,7 @@ struct smbl *find_symbol(sym) char *sym;
 	return (NULL);                 /* symbol not found */
 }
 
-void output_symbol(pntr) struct smbl *pntr;
-{
+void output_symbol(struct smbl *pntr) {
 	char c;
 	symknt++;
 	if (pntr->link[0]) output_symbol(pntr->link[0]);
@@ -272,8 +258,7 @@ void list_sym() {
 	        (long)refknt * (long)sizeof(struct xrfr));
 }
 
-void prnref(tmp) struct xrfr *tmp;
-{
+void prnref(struct xrfr *tmp) {
 	int i = 0;
 	char c;
 	while (tmp) {

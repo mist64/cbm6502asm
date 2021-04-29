@@ -6,9 +6,7 @@
 unsigned _STACK = 8192; /* stack size for lattice compiler */
                         /* has no effect on VAX */
 
-int main(argc, argv) int argc;
-char *argv[];
-{
+int main(int argc, char *argv[]) {
 	long oldbytes;
 	int i, first = TRUE;
 	open_files(argc, argv); /* get command line */
@@ -82,10 +80,7 @@ char *argv[];
 	return (1);       /* close files, release memory, exit */
 }
 
-void open_files(argc, argv) /* open files and initialize things */
-        int argc;
-char *argv[];
-{
+void open_files(int argc, char *argv[]) { /* open files and initialize things */
 	int i;
 	char *p, c, listfile[LINELENG];
 	long tyme;
@@ -272,9 +267,8 @@ char *argv[];
 		datetime[i] = 0;
 }
 
-void display_error(char c)
+void display_error(char c) {
 /* append another error to error field if this error has not occurred before */
-{
 	char *p = error_field;
 	while (*p) {
 		if (*p == ' ') *p = c;
@@ -283,10 +277,7 @@ void display_error(char c)
 	}
 }
 
-void error_msg(msg, info, fatal) char *msg, *info;
-int fatal;
-/* serious error messages */
-{
+void error_msg(char *msg, char *info, int fatal) { /* serious error messages */
 	printf("\n%s%s", msg, info);
 	if (fatal <= 1) return;
 	fclose(file_tmp); /* close temporary file */
@@ -294,8 +285,7 @@ int fatal;
 	exit(fatal);
 }
 
-void appendef(file, ext) char *file, *ext;
-{
+void appendef(char *file, char *ext) {
 	char *pos;                          /* position of ] if any */
 	pos = strchr(file, ']');            /* end of vax path */
 	if (!strchr(pos ? pos : file, '.')) /* already a dot? */

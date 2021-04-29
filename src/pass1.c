@@ -2,8 +2,7 @@
 #include "asm.h"
 #include "template.h"
 
-int good_symbol(p) char *p;
-{
+int good_symbol(char *p) {
 	int i = 1;
 	if (isalpha(*p) || *p == '.' || *p == '_') /* global symbol */
 		for (; i < 32 && p[i]; i++)
@@ -15,8 +14,7 @@ int good_symbol(p) char *p;
 	return (1);
 }
 
-int good_label(p) char *p;
-{
+int good_label(char *p) {
 	int i;
 
 	if (!*p) return (1); /* empty labels are okay */
@@ -31,9 +29,7 @@ int good_label(p) char *p;
 	return (good_symbol(p));
 }
 
-void get_label(p, endlocal) char *p;
-int endlocal;
-{
+void get_label(char *p, int endlocal) {
 	if (!*p || isspace(*p)) return; /* no label */
 	addr = TRUE;
 	if (isdigit(*p)) { /* must be a local symbol */
@@ -50,9 +46,7 @@ int endlocal;
 	if (ptr->multiple) display_error(error = 'M');
 }
 
-void pass1(macprmbgn, maclinptr, macargbgn) char *macprmbgn, **maclinptr,
-        *macargbgn;
-{
+void pass1(char *macprmbgn, char **maclinptr, char *macargbgn) {
 	int done, macro, savprint;
 
 	incl_sp = MAXINCL;

@@ -48,9 +48,7 @@ long evalsym() {
 	return (0L);
 }
 
-long evalcon(r) /* evaluate a constant in radix r */
-        int r;
-{
+long evalcon(int r) { /* evaluate a constant in radix r */
 	char c;
 	long con = 0;
 
@@ -129,8 +127,7 @@ int priority(char c) {
 	return (9);
 }
 
-void pushval(l) long l;
-{
+void pushval(long l) {
 	int k = 0;
 	do_unary(&l, &k); /* do unary operations before pushing value */
 	stack[--vsp] = l; /* push value */
@@ -138,10 +135,7 @@ void pushval(l) long l;
 	lastval = TRUE; /* last item scanned was a value */
 }
 
-void do_unary(l, k) /* perform unary operations */
-        long *l;
-int *k;
-{
+void do_unary(long *l, int *k) { /* perform unary operations */
 	char c;
 
 #if UNARYL2R
@@ -258,9 +252,7 @@ void eval(char op) {
 			do_oper();
 }
 
-int evaluate(str, value) char *str;
-long *value;
-{
+int evaluate(char *str, long *value) {
 	int i;
 	char c;
 

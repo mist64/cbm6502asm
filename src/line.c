@@ -47,8 +47,7 @@ void parselin() {
 	if (*s3 == ';') *s3 = 0;
 }
 
-void parses3(enablang) int enablang;
-{
+void parses3(int enablang) {
 	angleb = squote = dquote = 0;
 
 	if (*s3 == '=') { /* special 4 field case "label symbol = exp" */
@@ -103,10 +102,7 @@ void parses3(enablang) int enablang;
 	s3 = p3;
 }
 
-void macsubst(parm, arg, subbed) /* substitute macro args for parms */
-        char *parm,
-        *arg, *subbed;
-{
+void macsubst(char *parm, char *arg, char *subbed) { /* substitute macro args for parms */
 	int angleb, dif, i, j, k, la, lp, ll;
 	la = strlen(arg);
 	lp = strlen(parm);
@@ -145,14 +141,11 @@ void macsubst(parm, arg, subbed) /* substitute macro args for parms */
 	}
 }
 
-int get_line(macprmbgn, maclinptr, macargbgn)
+int get_line(char *macprmbgn, char **maclinptr, char *macargbgn) {
         /*
             get a line from current source or include file
             or from the expansion of the current macro
         */
-        char *macprmbgn,
-        **maclinptr, *macargbgn;
-{
 	int i, c;
 	char *macprmptr, *macargptr, *maclinp;
 
