@@ -2,7 +2,7 @@
 
 This is the source code of the 6502/65C02/65CE02 assembler developed and used by Commodore for the C65 project.
 
-It supports Commodore-style directives and is therefore mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
+It is a C reimplementation of Commodore's HCD65XX assembler that ran on the C128 (released as part of the [C128 Devpak](http://www.zimmers.net/anonftp/pub/cbm/demodisks/c128/)) - which in turn had replaced Commodore's "[Resident Assembler](https://github.com/mist64/kernalemu/)" (PET, C64, C128). Because of its heritage, it is mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
 
 This source is based on version "B0.0", dated 1989-06-14 from `4502-asm-for-pc.img` of the [Dennis Jarvis collection](http://6502.org/users/sjgray/dj/) and has been slightly updated:
 * A UNIX-style Makefile has been added.
@@ -50,6 +50,168 @@ This will assemble `name.src` and output to disk `name.obj` and `name.lst`.
 
 
 Since this assembler is backwards compatible with Commodore's HCD65 assembler, the following description has been adapted from chapter 2 of this service manual: [C128 Developers Package for Commodore 6502 Development (1987 Oct).pdf](http://www.zimmers.net/anonftp/pub/cbm/schematics/computers/c128/servicemanuals/C128_Developers_Package_for_Commodore_6502_Development_(1987_Oct).pdf).
+
+
+## Case Sensitivity
+
+The assembler is case insensitive for all non-quoted strings. This includes symbol names, label names, macro names, opcodes, and directives. The list file shows the source statements in the case they are presented to the assembler in. The symbol table and cross references list all symbols in the same case. Subtitles, program names, and other uniquely textual items are not case sensitive. However, on systems with case sensitive filesystems, `.INCLUDE` filenames must be specified in the correct case.
+
+
+## Constants
+
+Internally, the assembler uses 16-bit values to represent constants. Constants may be expressed in one of four radices or may be created using literal strings.
+
+### Hexadecimal Constants
+
+Hexadecimal constants are represented by one to four hexadecimal characters following a dollar sign (i.e., $1A7F).
+
+### Decimal Constants
+
+Decimal constants are represented by one to five decimal digits. No leading radix character is needed. (The `.RADIX` directive changes the radix of all constants without a prefix.)
+
+### Octal Constants
+
+Octal constants are represented by an octal number preceded by the "@” symbol. (i.e., @17777).
+
+### Binary Constants
+
+Binary constants are represented by a binary number preceded by the "%” symbol. (i.e., %01010100111).
+
+### Literal Constants
+
+Literal constants are represented by one or two ASCII or PETSCII characters enclosed in matching single quote characters. In certain situations, only the first single quote is neccesary. Certain differences exist in the way the `.BYTE` directive handles quoted strings. See that directive’s explanation. In the case where two literal characters are enclosed in quotes, the assembler places the first character in the low order field in the resulting 16-bit value.
+
+
+## Input File Format
+
+There are four fields recognized by the assembler. Each is optional and they typically are delimited by spaces or tabs.
+
+       Label_Field Operator_Field Argument_Field Comment_Field
+
+Comment lines are marked with a semicolon as the first non-white character (white characters are spaces and tabs). Any characters appearing after a semicolon (except a semicolon that appears in quotes) are considered to be comments and are ignored.
+
+Any text starting in the first column which is non blank and is not a comment is considered to be a label or symbol except in the case where there is a macro directive on that line. In that case the text is considered to be the macro name.
+
+The text in the second field defines how the assembler will interpret that line. Mnemonics, assembler directives, and macro calls are all placed here.
+
+The third field generally contains arguments to the second field. In cases where the operation does not expect arguments, the third field is considered to be a comment field.
+
+Anything after the third field is considered to be a comment.
+
+
+## Symbols and Labels
+
+Three type of symbols are supported by the assembler.
+
+* Global symbols
+* Global labels
+* Local labels
+
+Global symbols and labels represent 16-bit values. A symbol name is a string alphanumeric characters. None of the characters can be the characters which the assembler recognizes as an expression delimiter ( i.e.. quote marks, spaces, expression operators, radix operators, etc ). In addition, the first character in a symbol name cannot be a digit from 0-9, as those characters are indicative of local labels.
+
+Global symbol or global label names may be of any length, although only the first 32 characters are significant and all other characters are truncated for cross reference and symbol table purposes.
+
+Examples of valid symbols:
+
+`the_routine_is_here`
+`a3485734583488`
+`periods.are.legal`
+`this_symbol_soJong_thatJtJs_the_same_as_the_next`
+`this_symbol_soJong_thatJtJs_the_same_as_the_previous`
+
+Examples of illegal symbols:
+
+`here+nop` ; this is an expression with two symbols
+`123ksdhjfks` ; this starts with a digit
+
+NOTE: The asterisk `*` is a special symbol. It represents the current program counter. It may be assigned a value and it may be evaluated.
+
+Global labels differ from global symbols in that the symbols can be redefined many times during assembly. Labels can only be defined once.
+
+A symbol definition must be made explicitly using the equals sign (`=`). Any time a potential symbol appears in the label field, and is not explicitly made a symbol using the equal sign, it becomes a label. Further attempts to define it result in assembly error generation.
+
+Local labels take the form of one to three decimal digits with the value of 1-255 immediately followed by a dollar sign.
+
+Examples of local labels:
+
+       100$    ; this is legal
+       001$    ; this is the same as the next
+       1$      ; this is the same as the previous
+       999$    ; this is illegal (1-255).
+
+
+The range over which a local label is defined is delimited by two things:
+
+1) global labels
+2) the `.LOCAL` directive.
+
+Example:
+
+       test    jsr 10$  ; ok
+       10$     bne 20$  ; ok
+       20$     bpl 30$  ; not ok, 30$ not defined here
+       test2   nop      ; the label here delimits the 30$
+       30$     bne 10$  ; ok, this 10$ is the one below.
+       10$     nop      ; ok, this is a different 10$ than
+                        ; the one on the second line.
+               .local 
+               jmp 30$  ; not ok, the .local directive limits
+                        ; the range of the 30$
+
+
+## Assigning Values to Symbols
+
+Symbols may given a value in two ways.
+
+### Appearance in the labei field.
+
+A symbol which appears in the label field becomes a label except in 2 cases:
+
+1) The symbol is being assigned a value using the `=` sign, (see below)
+2) The symbol appears on a line with a `.MACRO` directive. In this case the symbol becomes the name of macro.
+
+### Explicit assignment using the equals sign
+
+A symbol may be assigned a value using the equal sign. For example:
+
+       nine = $09 ; assign the hex value 9 to the symbol ”nine”
+
+
+## Expressions
+
+Expression processing in the assembler accepts a large number of operators. Expressions are evaluated left to right except in the following cases:
+
+Highest Priority operators:
+
+       Unary +   truth operator
+       Unary -   two’s complement operator
+       !N        one’s complement operator (logical not)
+       <         low byte operator (returns low byte of value)
+       >         high byte operator (returns high byte of value)
+
+Second Priority operators:
+
+       *         16 bit multiply, returns low order 16-bit result
+       !.        logical AND
+       !+        logical OR
+       !X        logical Exclusive OR
+
+Lowest Priority operators:
+
+       Binary +  16 bit addition, carry discarded
+       Binary -  16 bit subtraction, borrow ignored.
+
+For Example:
+
+       $1234    = $1234
+       >$1234   = $0012
+       >$1234+1 = $0013
+       1+>$1234 = $0013
+       5-1-1    = $0003
+       -1       = $FFFF
+       >-1      = $00FF
+       !N$000F  = $FFF0
+
 
 ## Macros
 
@@ -438,19 +600,59 @@ The `.MESSG` forces the following text to be echoed out the error channel during
 
 (Reserve Memory Byte) `.RMB` is functionally identical to `*=*+`. It advances the program counter without generating object code. *<number>* specifies the number of bytes to reserve.
 
+#### `.RADIX`
 
-* `.RADIX`: set default radix for all numbers without a prefix
-* `.AORG`: ???
+This directive sets the default radix for all constants without a leading radix character.
+
+#### `.AORG`
+
+???
+
+
+## Error Reporting
+
+There are three types of errors reported by the assembler. Errors are issued to both the error channel and to the listing.
+
+### Fatal Errors
+
+Fatal errors prevent the assembler from continuing the assembly. These include running out of macro expansion space, and read errors from disk in the middle of a file. Fatal errors, which result in assembly termination, are accompanied by explanatory error messages.
+
+### System Errors
+
+System errors include inability to find an include file, to properly access the cross reference file, and other such non fatal errors.
+
+### Assembly Errors
+
+Assembly errors are those related to the source file content. They can usually be associated with a single erroneous line of source code. As such, assembly errors are reported in the listing on the same line with the offending source. If the error channel is different from the listing channel, then the offending line is also echoed to the error channel.
+
+Assembly errors occur for a variety of reasons. Each one has a specific error code printed in the first few columns of the listing output. The error codes and their definitions are listed below.
+
+`A`: Address error. Indicates bad address valued expression was evaluated. May indicate branch out of range.
+`B`: Balance error. Quotes, or angle brackets are mispaired on this line.
+`E`: Expression error. Invalid syntax in an expression. This error is npore serious than a syntax error. Occurs when invalid expressions are used in critical places ( like * = undefined_symbol).
+`F`: Field error. Something is missing on the line.
+`J`: Indicates that the address space is filled and that the resulting object code has wrapped from $FFFF to $0000 and a byte was created at $0000.
+`M`: Multiply-defined symbol. A symbol is defined more than once (where this is illegal). All but the first definition are ignored.
+`N`: Nesting error. Unexpected `.ELSE`, `.ENDIF`, `.ENDR`, or `.ENDM` detected.
+`O`: Undefined opcode or macro call used on this line.
+`P`: Phase error. Indicates the value of label was different in pass 2 than in pass 1. This may indicate a source file ( disk ) problem or some sort of illegal forward reference. The assembler is confused.
+`Q`: Questionable syntax. Indicates a syntax error which the assembler has resolved by some (probably incorrect) assumption.
+`S`: Syntax error. Generated for all sorts of syntactical errors.
+`U`: Undefined symbol. The assembler attempted to evaluate an expression which has an undefined symbol in it.
+`V`: Value error. An operand value was out of range. Typically generated when a 16-bit value is placed in an 8-bit field. Also flags attempts to branch out of range.
+`W`: Wasted byte warning. Generated when the assembler is forced to use an absolute addressing mode where a zero page addressing mode would suffice. This warning is typically created by forward references.
+`Z`: Division by zero error. Generated when an expression requests the assembler to divide by zero.
+`@`: Symbol table overflow. The symbol table is full and a symbol on this line cannot be written to the symbol table. All references to this symbol will result in undefined symbol errors.
+`?`: Internal error checking has conflicting results. This error occurs when the assembler detects an error which by design, should notoccur. This is indicative of a bug; however chances are that some construct on the line is questionable. This error can usually be eliminated by rearranging the line.
+`*`: Too many error codes were generated for this line for the assembler to list them all.
 
 
 ## TODO
 
-* Document assembler directives
-* Convert K&R -&gt; C90
 * Fix LLVM/GCC warnings
-* Handle UNIX patch separators correctly
+* Handle UNIX path separators correctly
 
 
 ## Authors
 
-**Commodore 6502ASM** was written by Fred Bowen in 1989. This repository is maintained by Michael Steil <mist64@mac.com>.
+**Commodore 6502ASM** was written by Fred Bowen in 1989. This repository is maintained by Michael Steil, <mist64@mac.com>.
