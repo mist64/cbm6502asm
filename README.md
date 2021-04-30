@@ -27,6 +27,7 @@ This source is based on version "B0.0", dated 1989-06-14 from `4502-asm-for-pc.i
 * [TODO](#todo)
 * [Authors](#authors)
 
+Since this assembler is backwards compatible with Commodore's HCD65 assembler, much of this documentation has been adapted from chapter 2 of the [C128 Developers Package for Commodore 6502 Development](http://www.zimmers.net/anonftp/pub/cbm/schematics/computers/c128/servicemanuals/C128_Developers_Package_for_Commodore_6502_Development_(1987_Oct).pdf)  service manual.
 
 ## Usage
 
@@ -64,9 +65,6 @@ Since the defaults are reasonable, a typical invokation of the assembler would b
     asm name,name=name
 
 This will assemble `name.src` and output to disk `name.obj` and `name.lst`.
-
-
-Since this assembler is backwards compatible with Commodore's HCD65 assembler, the following description has been adapted from chapter 2 of this service manual: [C128 Developers Package for Commodore 6502 Development (1987 Oct).pdf](http://www.zimmers.net/anonftp/pub/cbm/schematics/computers/c128/servicemanuals/C128_Developers_Package_for_Commodore_6502_Development_(1987_Oct).pdf).
 
 
 ## Case Sensitivity
@@ -501,7 +499,7 @@ The `.BYTE` directive also accepts a series of comma-terminated arguments. Each 
 
 #### `.MACRO` *dummy1, dummy2, ....dummyN*/`.ENDM`
 
-The `.MACRO` and `.ENDM` directives are extensively discussed in the section called "Macros”.
+The `.MACRO` and `.ENDM` directives are extensively discussed in the [Macros](#macros) section.
 
 ### Repeat Directives
 
@@ -552,7 +550,7 @@ Generates the following code:
        .BYTE "B",$BB
        .BYTE "C",$CC
 
-Because all repeat directives are actually special case macros, they can be nested to any depth. The use of angle brackets to pass unusual arguments is also supported. See the section on MACROS for additional information.
+Because all repeat directives are actually special case macros, they can be nested to any depth. The use of angle brackets to pass unusual arguments is also supported. See the section on [Macros](#macros) for additional information.
 
 ### Conditional Directives
 
@@ -587,7 +585,7 @@ There are several textual conditionals. These are essentially useless if used al
 
 #### `.IFB`/`.IFNB` *&lt;string&gt;*
 
-The `.IFB` directive evaluates true if its argument is found to be blank. Because of its nature, it is strongly recommended that this argument be delimited by the enclosing angle brackets as discussed in the section describing MACROS. `.IFNB` is simply the inverse of `.IFB`.
+The `.IFB` directive evaluates true if its argument is found to be blank. Because of its nature, it is strongly recommended that this argument be delimited by the enclosing angle brackets as discussed in the [Macros](#macros) section. `.IFNB` is simply the inverse of `.IFB`.
 
 #### `.IFIDN`/`.IFNIDN` *&lt;string1&gt;,&lt;string2&gt;*
 
@@ -596,11 +594,6 @@ The `.IFB` directive evaluates true if its argument is found to be blank. Becaus
 #### `.IFDEF`/`.IFNDEF` *&lt;symbol_name&gt;*
 
 `.IFDEF` evaluates true if the argument is both a legal symbol name, and has been previously defined in the source file. `.IFNDEF` evaluates true if the argument is either not a legal symbol name, or has not previously been defined.
-
-### Sections
-
-* `.ASECT` [`LOC=`] *symbol*
-* `.SECT` [`ABS,LOC=`] *symbol*
 
 ### Miscellaneous Directives
 
@@ -616,13 +609,32 @@ The `.MESSG` forces the following text to be echoed out the error channel during
 
 (Reserve Memory Byte) `.RMB` is functionally identical to `*=*+`. It advances the program counter without generating object code. *&lt;number&gt;* specifies the number of bytes to reserve.
 
-#### `.RADIX`
+#### `.RADIX` *&lt;number&gt;*
 
 This directive sets the default radix for all constants without a leading radix character.
 
-#### `.AORG`
+#### `.AORG` *&lt;number&gt;*
 
-???
+The `.AORG` directive is a synonym to `*=`. It sets the program counter to the specified argument
+
+#### `.SECT` *name* [`,ABS,LOC=` *symbol*]
+#### `.ASECT` *name* [`,LOC=` *symbol*]
+
+The `.SECT` and `.ASECT` directives either declare or switch to a section. You can declare a section like this:
+
+       .ASECT SEC_MAIN,LOC=$1000
+
+This creates an entry in the symbol table for the section `SEC_MAIN`, and sets it to $1000. It also sets the program counter to $1000.
+
+You can switch between sections like this:
+
+       .ASECT SEC_MAIN
+
+The value of the current section will be updated with the current program counter, and the program counter will be set to the value of the new section.
+
+The default section `A` exists for every program.
+
+*These directives do not seem to work right.*
 
 
 ## Error Reporting
