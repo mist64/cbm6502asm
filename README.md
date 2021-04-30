@@ -11,6 +11,23 @@ This source is based on version "B0.0", dated 1989-06-14 from `4502-asm-for-pc.i
 * The behavior has been changed to default to lower case extensions.
 
 
+## Table of Contents
+
+* [Usage](#usage)
+* [Case Sensitivity](#case-sensitivity)
+* [Constants](#constants)
+* [Input File Format](#input-file-format)
+* [Symbols and Labels](#symbols-and-labels)
+* [Assigning Values to Symbols](#assigning-values-to-symbols)
+* [Expressions](#expressions)
+* [Macros](#macros)
+* [Listing Format](#listing-format)
+* [Assembler Directives](#assembler-directives)
+* [Error Reporting](#error-reporting)
+* [TODO](#todo)
+* [Authors](#authors)
+
+
 ## Usage
 
 The assembler command line consists of these file names and switches:
@@ -113,16 +130,16 @@ Global symbol or global label names may be of any length, although only the firs
 
 Examples of valid symbols:
 
-`the_routine_is_here`
-`a3485734583488`
-`periods.are.legal`
-`this_symbol_soJong_thatJtJs_the_same_as_the_next`
-`this_symbol_soJong_thatJtJs_the_same_as_the_previous`
+* `the_routine_is_here`
+* `a3485734583488`
+* `periods.are.legal`
+* `this_symbol_soJong_thatJtJs_the_same_as_the_next`
+* `this_symbol_soJong_thatJtJs_the_same_as_the_previous`
 
 Examples of illegal symbols:
 
-`here+nop` ; this is an expression with two symbols
-`123ksdhjfks` ; this starts with a digit
+* `here+nop` ; this is an expression with two symbols
+* `123ksdhjfks` ; this starts with a digit
 
 NOTE: The asterisk `*` is a special symbol. It represents the current program counter. It may be assigned a value and it may be evaluated.
 
@@ -484,7 +501,7 @@ The `.BYTE` directive also accepts a series of comma-terminated arguments. Each 
 
 #### `.MACRO` *dummy1, dummy2, ....dummyN*/`.ENDM`
 
-...
+The `.MACRO` and `.ENDM` directives are extensively discussed in the section called "Macros”.
 
 ### Repeat Directives
 
@@ -559,13 +576,12 @@ The use of undefined symbols in the expression for the conditional results in an
 
 There are several numeric conditionals. Each of these accepts a single expression as its argument. Numeric evaluation is considered to be a 16-bit two's complement.
 
-
-`.IFE` expression evaluates true if expression is 0.
-`.IFN` expression evaluates true if expression <> 0
-`.IFGE` expression evaluates true if expression is >= 0.
-`.IFGT` expression evaluates true if expression is > 0.
-`.IFLT` expression evaluates true if expression is < 0.
-`.IFLE` expression evaluates true if expression is =< 0.
+* `.IFE` expression evaluates true if expression is 0.
+* `.IFN` expression evaluates true if expression &lt;&gt; 0
+* `.IFGE` expression evaluates true if expression is &gt;= 0.
+* `.IFGT` expression evaluates true if expression is &gt; 0.
+* `.IFLT` expression evaluates true if expression is &lt; 0.
+* `.IFLE` expression evaluates true if expression is =&lt; 0.
 
 There are several textual conditionals. These are essentially useless if used alone. However, when combined with macros they can make many tasks easier. They can, for example, be used to detect the presence or absence of arguments.
 
@@ -573,11 +589,11 @@ There are several textual conditionals. These are essentially useless if used al
 
 The `.IFB` directive evaluates true if its argument is found to be blank. Because of its nature, it is strongly recommended that this argument be delimited by the enclosing angle brackets as discussed in the section describing MACROS. `.IFNB` is simply the inverse of `.IFB`.
 
-#### `.IFIDN`/`.IFNIDN` *<string1>,<string2>*
+#### `.IFIDN`/`.IFNIDN` *&lt;string1&gt;,&lt;string2&gt;*
 
 `.IFIDN` evaluates true if the two argument strings are identical. This operation is case sensitive. `.IFNIDN` evaluates true if they are not identical.
 
-#### `.IFDEF``.IFNDEF` *<symbol_name>*
+#### `.IFDEF`/`.IFNDEF` *&lt;symbol_name&gt;*
 
 `.IFDEF` evaluates true if the argument is both a legal symbol name, and has been previously defined in the source file. `.IFNDEF` evaluates true if the argument is either not a legal symbol name, or has not previously been defined.
 
@@ -592,13 +608,13 @@ The `.IFB` directive evaluates true if its argument is found to be blank. Becaus
 
 The `.LOCAL` directive is used to delimit the range of local labels. It enables this operation without forcing the unneccesary act of thinking up yet another label name.
 
-#### `.MESSG` *<text>*
+#### `.MESSG` *&lt;text&gt;*
 
 The `.MESSG` forces the following text to be echoed out the error channel during pass2. Its primary use is inside of conditionals to present error messages for code overflow, etc.
 
-#### `.RMB` *<number>*
+#### `.RMB` *&lt;number&gt;*
 
-(Reserve Memory Byte) `.RMB` is functionally identical to `*=*+`. It advances the program counter without generating object code. *<number>* specifies the number of bytes to reserve.
+(Reserve Memory Byte) `.RMB` is functionally identical to `*=*+`. It advances the program counter without generating object code. *&lt;number&gt;* specifies the number of bytes to reserve.
 
 #### `.RADIX`
 
@@ -627,24 +643,24 @@ Assembly errors are those related to the source file content. They can usually b
 
 Assembly errors occur for a variety of reasons. Each one has a specific error code printed in the first few columns of the listing output. The error codes and their definitions are listed below.
 
-`A`: Address error. Indicates bad address valued expression was evaluated. May indicate branch out of range.
-`B`: Balance error. Quotes, or angle brackets are mispaired on this line.
-`E`: Expression error. Invalid syntax in an expression. This error is npore serious than a syntax error. Occurs when invalid expressions are used in critical places ( like * = undefined_symbol).
-`F`: Field error. Something is missing on the line.
-`J`: Indicates that the address space is filled and that the resulting object code has wrapped from $FFFF to $0000 and a byte was created at $0000.
-`M`: Multiply-defined symbol. A symbol is defined more than once (where this is illegal). All but the first definition are ignored.
-`N`: Nesting error. Unexpected `.ELSE`, `.ENDIF`, `.ENDR`, or `.ENDM` detected.
-`O`: Undefined opcode or macro call used on this line.
-`P`: Phase error. Indicates the value of label was different in pass 2 than in pass 1. This may indicate a source file ( disk ) problem or some sort of illegal forward reference. The assembler is confused.
-`Q`: Questionable syntax. Indicates a syntax error which the assembler has resolved by some (probably incorrect) assumption.
-`S`: Syntax error. Generated for all sorts of syntactical errors.
-`U`: Undefined symbol. The assembler attempted to evaluate an expression which has an undefined symbol in it.
-`V`: Value error. An operand value was out of range. Typically generated when a 16-bit value is placed in an 8-bit field. Also flags attempts to branch out of range.
-`W`: Wasted byte warning. Generated when the assembler is forced to use an absolute addressing mode where a zero page addressing mode would suffice. This warning is typically created by forward references.
-`Z`: Division by zero error. Generated when an expression requests the assembler to divide by zero.
-`@`: Symbol table overflow. The symbol table is full and a symbol on this line cannot be written to the symbol table. All references to this symbol will result in undefined symbol errors.
-`?`: Internal error checking has conflicting results. This error occurs when the assembler detects an error which by design, should notoccur. This is indicative of a bug; however chances are that some construct on the line is questionable. This error can usually be eliminated by rearranging the line.
-`*`: Too many error codes were generated for this line for the assembler to list them all.
+* `A`: Address error. Indicates bad address valued expression was evaluated. May indicate branch out of range.
+* `B`: Balance error. Quotes, or angle brackets are mispaired on this line.
+* `E`: Expression error. Invalid syntax in an expression. This error is npore serious than a syntax error. Occurs when invalid expressions are used in critical places ( like * = undefined_symbol).
+* `F`: Field error. Something is missing on the line.
+* `J`: Indicates that the address space is filled and that the resulting object code has wrapped from $FFFF to $0000 and a byte was created at $0000.
+* `M`: Multiply-defined symbol. A symbol is defined more than once (where this is illegal). All but the first definition are ignored.
+* `N`: Nesting error. Unexpected `.ELSE`, `.ENDIF`, `.ENDR`, or `.ENDM` detected.
+* `O`: Undefined opcode or macro call used on this line.
+* `P`: Phase error. Indicates the value of label was different in pass 2 than in pass 1. This may indicate a source file ( disk ) problem or some sort of illegal forward reference. The assembler is confused.
+* `Q`: Questionable syntax. Indicates a syntax error which the assembler has resolved by some (probably incorrect) assumption.
+* `S`: Syntax error. Generated for all sorts of syntactical errors.
+* `U`: Undefined symbol. The assembler attempted to evaluate an expression which has an undefined symbol in it.
+* `V`: Value error. An operand value was out of range. Typically generated when a 16-bit value is placed in an 8-bit field. Also flags attempts to branch out of range.
+* `W`: Wasted byte warning. Generated when the assembler is forced to use an absolute addressing mode where a zero page addressing mode would suffice. This warning is typically created by forward references.
+* `Z`: Division by zero error. Generated when an expression requests the assembler to divide by zero.
+* `@`: Symbol table overflow. The symbol table is full and a symbol on this line cannot be written to the symbol table. All references to this symbol will result in undefined symbol errors.
+* `?`: Internal error checking has conflicting results. This error occurs when the assembler detects an error which by design, should notoccur. This is indicative of a bug; however chances are that some construct on the line is questionable. This error can usually be eliminated by rearranging the line.
+* `*`: Too many error codes were generated for this line for the assembler to list them all.
 
 
 ## TODO
