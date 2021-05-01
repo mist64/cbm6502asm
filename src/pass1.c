@@ -125,7 +125,9 @@ void pass1(char *macprmbgn, char **maclinptr, char *macargbgn) {
 					        (char)0, (char)1);
 					macrolevel++; /* increment macro depth
 					               */
+					int incl_sp_copy = incl_sp;
 					pass1(prmbgn, &defbgn, argbgn);
+					incl_sp = incl_sp_copy;
 					macrolevel--; /* finished with macro */
 					free(argbgn); /* free memory used for
 					                 arguments */
