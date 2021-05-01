@@ -54,7 +54,8 @@ int direct1(char *macprmbgn, char **maclinptr, char *macargbgn) {
 	    !strcmp(s2, ".IFDEF") || !strcmp(s2, ".IFNDEF") ||
 	    !strcmp(s2, ".IFN") || !strcmp(s2, ".IFE") ||
 	    !strcmp(s2, ".IFGT") || !strcmp(s2, ".IFGE") ||
-	    !strcmp(s2, ".IFLT") || !strcmp(s2, ".IFLE")) {
+	    !strcmp(s2, ".IFLT") || !strcmp(s2, ".IFLE") ||
+	    !strcmp(s2, ".IF")) {
 		if (!isspace(line[0])) display_error(error = 'F');
 		if (!condit) /* not interest in type if condit is false */
 			return (pushcond(condit));
@@ -125,7 +126,7 @@ int direct1(char *macprmbgn, char **maclinptr, char *macargbgn) {
 					return (pushcond(l <= 0));
 				if (!strcmp(s2, ".IFLT"))
 					return (pushcond(l < 0));
-				if (!strcmp(s2, ".IFN"))
+				if (!strcmp(s2, ".IFN") || !strcmp(s2, ".IF"))
 					return (pushcond(l != 0));
 				display_error(error = 'O');
 				return 1;

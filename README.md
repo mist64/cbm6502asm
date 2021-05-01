@@ -575,7 +575,7 @@ The use of undefined symbols in the expression for the conditional results in an
 There are several numeric conditionals. Each of these accepts a single expression as its argument. Numeric evaluation is considered to be a 16-bit two's complement.
 
 * `.IFE` expression evaluates true if expression is 0.
-* `.IFN` expression evaluates true if expression &lt;&gt; 0
+* `.IFN`/`.IF` expression evaluates true if expression &lt;&gt; 0
 * `.IFGE` expression evaluates true if expression is &gt;= 0.
 * `.IFGT` expression evaluates true if expression is &gt; 0.
 * `.IFLT` expression evaluates true if expression is &lt; 0.
