@@ -2,13 +2,19 @@
 
 This is the source code of the 6502/65C02/65CE02 assembler developed and used by Commodore for the C65 project.
 
-It is a C reimplementation of Commodore's HCD65XX assembler that ran on the C128 (released as part of the [C128 Devpak](http://www.zimmers.net/anonftp/pub/cbm/demodisks/c128/)) - which in turn had replaced Commodore's "[Resident Assembler](https://github.com/mist64/kernalemu/)" (PET, C64, C128). Because of its heritage, it is mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
+It aims to be compatible with the Boston System Office [CR6502/11 cross-assembler](https://github.com/TYMCOM-X/169273.tape/blob/abc68e373db6be0104efe986d23624462ef691b9/*6news/ca6502.doc), which Commodore had used to build all its source after 1984.
+
+It is also highly compatible with Commodore's HCD65XX assembler that ran on the C128 (released as part of the [C128 Devpak](http://www.zimmers.net/anonftp/pub/cbm/demodisks/c128/)) as well as Commodore's earlier "[Resident Assembler](https://github.com/mist64/kernalemu/)" (PET, C64, CBM2, TED, C128).
+
+Because of its heritage, it is mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
 
 This source is based on version "B0.0", dated 1989-06-14 from `4502-asm-for-pc.img` of the [Dennis Jarvis collection](http://6502.org/users/sjgray/dj/) and has been slightly updated:
 * A UNIX-style Makefile has been added.
 * The whole source has been linted into a more modern coding style.
 * Some compiler warnings have been fixed.
 * The behavior has been changed to default to lower case extensions.
+* `.IF` has been added for BSO compatibility.
+* The macro-within-include bug has been fixed (see [serlib.zip](http://www.zimmers.net/anonftp/pub/cbm/src/drives/serlib.zip) for an example run before the fix).
 
 
 ## Table of Contents
@@ -657,7 +663,7 @@ Assembly errors occur for a variety of reasons. Each one has a specific error co
 
 * `A`: Address error. Indicates bad address valued expression was evaluated. May indicate branch out of range.
 * `B`: Balance error. Quotes, or angle brackets are mispaired on this line.
-* `E`: Expression error. Invalid syntax in an expression. This error is npore serious than a syntax error. Occurs when invalid expressions are used in critical places ( like * = undefined_symbol).
+* `E`: Expression error. Invalid syntax in an expression. This error is more serious than a syntax error. Occurs when invalid expressions are used in critical places (like * = undefined_symbol).
 * `F`: Field error. Something is missing on the line.
 * `J`: Indicates that the address space is filled and that the resulting object code has wrapped from $FFFF to $0000 and a byte was created at $0000.
 * `M`: Multiply-defined symbol. A symbol is defined more than once (where this is illegal). All but the first definition are ignored.
