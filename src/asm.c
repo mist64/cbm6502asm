@@ -94,7 +94,7 @@ void open_files(int argc, char *argv[]) { /* open files and initialize things */
 	if (argc > 1)                     /* check command line */
 		strcpy(comline, argv[1]); /* get command line */
 	else {
-		printf("\nasm>");     /* prompt user for instructions */
+		printf("\nC65>");     /* prompt user for instructions */
 		scanf("%s", comline); /* read command line from console */
 	}
 	if (!strcmp(comline, "/H") || !strcmp(comline, "/h")) {

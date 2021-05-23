@@ -39,7 +39,7 @@ Since this assembler is backwards compatible with Commodore's HCD65 assembler, m
 
 The assembler command line consists of these file names and switches:
 
-    asm [object],[listing]=source[,source]...[,source][/switch]...[/switch]
+    C65> [object],[listing]=source[,source]...[,source][/switch]...[/switch]
 
 Items enclosed in brackets `[...]` are optional.
 The default file extentions are `.obj`, `.lst`, and `.src`, respectively.

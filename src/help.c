@@ -4,7 +4,7 @@
 void help() {
 	printf("\nthe assembler command line consists of the file names and "
 	       "switches\n");
-	printf("\nasm> "
+	printf("\nC65> "
 	       "[object],[listing]=source[,source]...[,source][/switch]...[/"
 	       "switch]\n");
 	printf("\nItems enclosed in brackets [...] are optional.\n");
