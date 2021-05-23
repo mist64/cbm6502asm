@@ -155,7 +155,7 @@ void insert_symbol(char *sym, long value, int def, int known, int local) {
 			ptr = ptr->link[i < 0];
 		else {
 			if (!local) addref(&ptr->xref, def);
-			if (def && ptr->defined && !equ && !ptr->equate &&
+			if (def && ptr->defined && (!equ || !ptr->equate) &&
 			    pass == 1)
 				ptr->multiple =
 				        1; /* symbol is multiply defined */

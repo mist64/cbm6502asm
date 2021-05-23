@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define STATLINE "                                " /* spacer for status */
-#define VERSION "B0.0"                              /* version number */
+#define VERSION "V1.0"                              /* version number */
 #define DEFCPUTYPE 3  /* default to Commodore 4502 assembly */
 #define LINELENG 134  /* maximum line length */
 #define FIRSTCHAR 32  /* pos of source statement in list file */

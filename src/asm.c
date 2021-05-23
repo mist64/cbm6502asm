@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
 		if (emitobj) {
 			fclose(file_obj);                /* close obj file */
 			file_obj = fopen(objfile, "w+"); /* reopen it */
+			fseek(file_obj, 0L, 0);          /* position at beginning of file */
 		}
 		pass2(); /* pass2 processor */
 		curpass++;

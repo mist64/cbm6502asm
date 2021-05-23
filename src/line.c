@@ -54,7 +54,7 @@ void parses3(int enablang) {
 		s3++;
 		while (isspace(*s3)) s3++; /* 3rd field is "= exp" */
 	}
-	while (*s3 && !(*s3 == ';' && !(squote || dquote))) {
+	while (*s3 && (*s3 != ';' || squote || dquote)) {
 		char *pnt;
 		if (*s3 == '~') { /* special treatment for the tilde char */
 			pnt = s3 +

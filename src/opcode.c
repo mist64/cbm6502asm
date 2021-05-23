@@ -228,9 +228,13 @@ char parseopr() {
 		s3++;
 		if ((*s3 == '\'' || *s3 == '\"') && isspace(s3[2])) s3[2] = *s3;
 		known = evaluate(s3, &l);
-		d[data++] = l & 255;
-		if (!known || l < 256)
-			if ((j = searchstr(nm7, s2, 3)) >= 0) return (op7[j]);
+		j = searchstr(nm7, s2, 3);
+		if (j >= 0) {
+			d[data++] = l & 255;
+			if ((op7[j] & 0x00ff) == 0x00f4) d[data++] = l >> 8;
+			if (!known || l < 256 || (op7[j] & 0x00ff) == 0x00f4)
+				return (op7[j]);
+		}
 		display_error(error = 'O');
 		return (data = 0);
 	}
@@ -438,7 +442,7 @@ char parseopr() {
 	known = evaluate(s3, &l);
 	d[data++] = l & 255;
 	j = searchstr(nm5, s2, 3);
-	i = !known || l < -128 || l > 255 || forcelong;
+	i = !known || l < -128 || l > 255 || forcelong || !op5[j];
 	if ((k = (i && op6[j]))) d[data++] = l >> 8 & 255;
 	if (k ? op6[j] : op5[j]) return (k ? op6[j] : op5[j]); /* ?abs:bp */
 	display_error(error = 'O');
