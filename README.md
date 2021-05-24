@@ -4,7 +4,7 @@ This is the source code of the 6502/65C02/65CE02 assembler developed and used by
 
 It aims to be compatible with the Boston System Office [CR6502/11 cross-assembler](https://github.com/TYMCOM-X/169273.tape/blob/abc68e373db6be0104efe986d23624462ef691b9/*6news/ca6502.doc), which Commodore had used to build all its source after 1984.
 
-It is also highly compatible with Commodore's HCD65XX assembler that ran on the C128 (released as part of the [C128 Devpak](http://www.zimmers.net/anonftp/pub/cbm/demodisks/c128/)) as well as Commodore's earlier "[Resident Assembler](https://github.com/mist64/kernalemu/)" (PET, C64, CBM2, TED, C128).
+It is also highly compatible with Commodore's HCD65XX assembler that ran on the C128 (released as part of the [C128 Devpak](http://www.zimmers.net/anonftp/pub/cbm/demodisks/c128/)), and is somewhat compatible with Commodore's earlier "[Resident Assembler](https://github.com/mist64/kernalemu/)" (PET, C64, CBM2, TED, C128).
 
 Because of its heritage, it is mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
 
@@ -692,4 +692,4 @@ Assembly errors occur for a variety of reasons. Each one has a specific error co
 
 ## Authors
 
-**Commodore 6502ASM** was written by Fred Bowen in 1989. This repository is maintained by Michael Steil, <mist64@mac.com>.
+**Commodore 6502ASM** was written by Bob Norby in 1989. This repository is maintained by Michael Steil, <mist64@mac.com>.
