@@ -8,7 +8,7 @@ It is also highly compatible with Commodore's HCD65XX assembler that ran on the 
 
 Because of its heritage, it is mostly compatible with older Commodore source code, like the [cbmsrc](https://github.com/mist64/cbmsrc) collection.
 
-This source is based on version "V1.0", dated 1989-08-23, reconstructed from the V1.0 .lis/.lst files in [c65_src.tar.gz](http://www.zimmers.net/anonftp/pub/cbm/src/c65/c65_src.tar.gz) and the B0.0 .c/.h files in 4502-asm-for-pc.img from Steve Gray's [Dennis Jarvis Page](http://6502.org/users/sjgray/dj/).
+This source is based on version "V1.0", dated 1989-08-23, reconstructed from the V1.0 .lis/.lst files in [c65_src.tar.gz](http://www.zimmers.net/anonftp/pub/cbm/src/c65/c65_src.tar.gz) and the B0.0 .c/.h files in 4502-asm-for-pc.img from Steve Gray's [Dennis Jarvis Page](http://cbmsteve.ca/dj/).
 
 It has been slightly updated:
 * A UNIX-style Makefile has been added.
