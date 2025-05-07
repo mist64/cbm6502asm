@@ -32,7 +32,7 @@ void clean_list() {
 			continue;
 		}
 		if (spec == 'S') { /* .subttl directive */
-			parselin(0);
+			parselin();
 			strcpy(subttl, s3);
 		}
 		if (nline > formln) {
