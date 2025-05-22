@@ -78,7 +78,11 @@ int main(int argc, char *argv[]) {
 	}
 	fclose(file_tmp); /* close temporary file */
 	remove(tmpdev);   /* delete temporary file */
-	return (1);       /* close files, release memory, exit */
+
+	/* Originally 'main()' returned (1), which by VMS convention is a success
+	   code. Changed to (0) to match the UNIX convention. */
+	
+	return (0);       /* close files, release memory, exit */
 }
 
 void open_files(int argc, char *argv[]) { /* open files and initialize things */
