@@ -4,7 +4,7 @@
 #include "template.h"
 
 #define CHUNK 512 /* increment of memory to allocate for macro def */
-#define MACHDR offsetof(struct macdef, name) /* bytes before name[]; was hard-coded as 8, which is 16 on LP64 hosts */
+#define MACHDR offsetof(struct macdef, name) /* bytes before name[]; was hard-coded as 8, which is 12 on LP64 hosts */
 
 void macro_def(char *macprmbgn, char **maclinptr, char *macargbgn, int mactype) {
 /* mactype: 1=.MACRO 2=.REPT 3=.IRP 4=.IRPC */
