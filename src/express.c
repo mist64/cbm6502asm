@@ -65,7 +65,7 @@ long evalcon(int r) { /* evaluate a constant in radix r */
 
 long evalocal() { /* evaluate a local symbol */
 	int loc = 0;
-	char *p, sym[8];
+	char *p, sym[32]; /* insert_symbol() writes sym[31] */
 
 	for (p = lp; isdigit(*p); p++)
 		loc = loc * 10 + *p -

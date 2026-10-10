@@ -169,7 +169,8 @@ void pass1(char *macprmbgn, char **maclinptr, char *macargbgn) {
 		if (incl_sp < MAXINCL) {
 			strcpy(srcfile, &filename[fnptr = filnamptr[incl_sp]]);
 			fprintf(file_tmp, "%32.32sF%s\n", STATLINE, srcfile);
+			file_src = incl_stack[incl_sp]; /* resume including file */
 		}
-		file_src = incl_stack[incl_sp++];
+		incl_sp++; /* > MAXINCL: main source done */
 	}
 }

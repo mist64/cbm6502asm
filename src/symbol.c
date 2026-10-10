@@ -5,6 +5,7 @@
 #define RIGHT 1
 #define BALANCED 2
 #define LX extern
+#include <stddef.h>
 #include "asm.h"
 #include "template.h"
 
@@ -35,18 +36,24 @@ int symblk = -1;       /* number of blocks of memory allocated for symbols */
 int symbol_ptr = SYMBLKSZ; /* how much memory of current buffer is used */
 char *symbol_buf;          /* the current buffer for symbol table entries */
 
+/* alignment of struct smbl (C90: offset of the struct after a char) */
+struct smbl_align { char c; struct smbl s; };
+#define SYMALIGN offsetof(struct smbl_align, s)
+
 char *allocsym(int symlen) {
 	/* returns a pointer for use as a symbol table entry */
 
 	int symptr = symbol_ptr;
-	symbol_ptr += sizeof(struct smbl) - 31 + symlen;
+	symbol_ptr += (sizeof(struct smbl) - 31 + symlen + SYMALIGN - 1) &
+	              ~(SYMALIGN - 1); /* keep the next entry aligned */
 	if (symbol_ptr >= SYMBLKSZ) {
 		symbol_buf = (char *)calloc(SYMBLKSZ, 1);
 		if (!symbol_buf)
 			error_msg("Available memory exceeded storing symbol",
 			          "", 4);
 		symptr = 0;
-		symbol_ptr = sizeof(struct smbl) - 31 + symlen;
+		symbol_ptr = (sizeof(struct smbl) - 31 + symlen + SYMALIGN - 1) &
+		             ~(SYMALIGN - 1);
 		symblk++;
 	}
 	return (symbol_buf + symptr);
