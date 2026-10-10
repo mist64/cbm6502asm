@@ -1,8 +1,10 @@
 #define LX extern
+#include <stddef.h>
 #include "asm.h"
 #include "template.h"
 
 #define CHUNK 512 /* increment of memory to allocate for macro def */
+#define MACHDR offsetof(struct macdef, name) /* bytes before name[]; was hard-coded as 8, which is 16 on LP64 hosts */
 
 void macro_def(char *macprmbgn, char **maclinptr, char *macargbgn, int mactype) {
 /* mactype: 1=.MACRO 2=.REPT 3=.IRP 4=.IRPC */
@@ -58,7 +60,7 @@ void macro_def(char *macprmbgn, char **maclinptr, char *macargbgn, int mactype) 
 		    !macrocnt) {
 			newmac->name[m++] =
 			        0; /* add a null indicating macro end */
-			newmac->size = m + 8;
+			newmac->size = m + MACHDR;
 			if (error) {
 				free((char *)newmac); /* don't save macro if
 				                         error */
@@ -68,7 +70,7 @@ void macro_def(char *macprmbgn, char **maclinptr, char *macargbgn, int mactype) 
 			                                 into list */
 			/* truncated memory block */
 			tmpmac =
-			        (struct macdef *)realloc((char *)newmac, m + 8);
+			        (struct macdef *)realloc((char *)newmac, m + MACHDR);
 			if (!(long)(macro_head = tmpmac))
 				error_msg("Available memory exceeded",
 				          newmac->name, 4);
@@ -76,7 +78,7 @@ void macro_def(char *macprmbgn, char **maclinptr, char *macargbgn, int mactype) 
 		}
 		outline((char)0, (char)0, (char *)0, (char)0, (char)1);
 		/* check for macro def in macro */
-		if (m + 8 + LINELENG > l) { /* alloc more memory if needed */
+		if (m + MACHDR + LINELENG > l) { /* alloc more memory if needed */
 			tmpmac = (struct macdef *)realloc((char *)newmac,
 			                                  l += CHUNK);
 			if (!(long)tmpmac) /* check if allocation sucessful */
